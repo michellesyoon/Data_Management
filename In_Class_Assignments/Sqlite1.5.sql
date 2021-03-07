@@ -3,7 +3,10 @@ SELECT MAX(Total)
 FROM Invoice;
 
 --Question 2
-
+--Select shows the return value of max billing total
+SELECT Invoice.Total
+FROM Invoice
+WHERE Invoice.Total > 24;
 
 --Question 3
 SELECT MediaType.Name, COUNT(*)
