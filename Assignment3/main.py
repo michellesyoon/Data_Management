@@ -5,6 +5,7 @@ from pandas import DataFrame
 import re
 
 # https://thispointer.com/python-pandas-how-to-display-full-dataframe-i-e-print-all-rows-columns-without-truncation/
+# to display all columns and rows
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -30,6 +31,7 @@ if not StudentTable:
     df.to_sql("Student", conn, if_exists='append', index=False)
 
 
+# main menu
 def mainMenu():
     choice = input("""
     Main Menu
@@ -64,20 +66,21 @@ def mainMenu():
         exit()
 
     else:
-        print("""    Invalid input""")
-        print("""    Select A, B, C, D, E, F""")
+        print("Invalid input")
+        print("Select A, B, C, D, E, F")
         mainMenu()
 
 
+# update menu
 def updateMenu():
     choice = input("""
-        Update 
-        A: Major
-        B: Advisor
-        C: Mobile Phone Number
-        D: Main Menu
-        E: Quit
-        Enter your choice: """)
+    Update 
+    A: Major
+    B: Advisor
+    C: Mobile Phone Number
+    D: Main Menu
+    E: Quit
+    Enter your choice: """)
 
     if choice == "A" or choice == "a":
         updateStudentMajor()
@@ -98,22 +101,22 @@ def updateMenu():
         exit()
 
     else:
-        print("""
-            Select A, B, C, E, F""")
+        print("Select A, B, C, E, F")
         updateMenu()
 
 
+# search menu
 def searchMenu():
-    choice = input("""
-            Search/Display 
-            A: Major
-            B: GPA 
-            C: City 
-            D: State
-            E: Faculty Advisor
-            F: Main Menu
-            G: Quit
-            Enter your choice: """)
+    choice = input(""""
+    Search/Display 
+    A: Major
+    B: GPA 
+    C: City 
+    D: State
+    E: Faculty Advisor
+    F: Main Menu
+    G: Quit
+    Enter your choice: """)
 
     if choice == "A" or choice == "a":
         print("Enter Communications, Computer Science, History, Math, or Physics")
@@ -185,8 +188,7 @@ def searchMenu():
         exit()
 
     else:
-        print("""
-                Select A, B, C, E, F""")
+        print("Select A, B, C, E, F")
         updateMenu()
 
 
@@ -206,29 +208,34 @@ def insertStudent():
     fn = input("First name: ")
     if not fn.isalpha():
         print("Invalid input")
+        print("Returning back to main menu...")
         mainMenu()
 
     ln = input("Last name: ")
     if not ln.isalpha():
         print("Invalid input")
+        print("Returning back to main menu...")
         mainMenu()
 
     gpaStr = input("GPA: ")
     gpa = float(gpaStr)
     if not 0.0 >= gpa and 4.5 <= gpa:
-        print("GPA is scaled from 0.0 to 4.0")
+        print("GPA is scaled from 0.0 to 4.5")
+        print("Returning back to main menu...")
         mainMenu()
 
     major = input("Major: ")
     for i in major:
         if i != ' ' and i.isdigit():
             print("Invalid input")
+            print("Returning back to main menu...")
             mainMenu()
 
     fAdvisor = input("Faculty Advisor: ")
     for i in fAdvisor:
         if i != ' ' and i.isdigit():
             print("Invalid input")
+            print("Returning back to main menu...")
             mainMenu()
 
     address = input("Address: ")
@@ -237,17 +244,20 @@ def insertStudent():
     for i in city:
         if i != ' ' and i.isdigit():
             print("Invalid input")
+            print("Returning back to main menu...")
             mainMenu()
 
     state = input("State: ")
     for i in state:
         if i != ' ' and i.isdigit():
             print("Invalid input")
+            print("Returning back to main menu...")
             mainMenu()
 
     zCode = input("Zip Code: ")
     if not zCode.isdigit():
         print("Invalid input")
+        print("Returning back to main menu...")
         mainMenu()
 
     mobileNum = input("Mobile Number: ")
@@ -259,6 +269,7 @@ def insertStudent():
     if not (isMobileNum1 or isMobileNum2):
         print("Invalid, format (XXX) XXX-XXX extXXX..-extension is optional")
         print("Invalid input")
+        print("Returning back to main menu...")
         mainMenu()
 
     myCursor.execute("INSERT INTO Student (FirstName, LastName, GPA, Major, FacultyAdvisor, Address, City, State, "
@@ -270,8 +281,6 @@ def insertStudent():
 # 2d) Update Students
 #   i.Only the following fields can be updated 1.Major, Advisor, MobilePhoneNumber
 #   ii.Make sure that your UPDATE statement makes use of the correct key
-
-
 def updateStudentMajor():
     sId = input("Enter Student ID: ")
     if not sId.isdigit():
@@ -283,6 +292,7 @@ def updateStudentMajor():
     for i in updateMajor:
         if i != ' ' and i.isdigit():
             print("Invalid input")
+            print("Returning back the update menu...")
             updateMenu()
     myCursor.execute("UPDATE Student SET Major = ? WHERE StudentId = ?", (updateMajor, sId))
     conn.commit()
@@ -299,6 +309,7 @@ def updateStudentAdvisor():
     for i in updateAdvisor:
         if i != ' ' and i.isdigit():
             print("Invalid input")
+            print("Returning back the update menu...")
             updateMenu()
     myCursor.execute("UPDATE Student SET FacultyAdvisor = ? WHERE StudentId = ?", (updateAdvisor, sId))
     conn.commit()
@@ -318,8 +329,8 @@ def updateStudentMobileNum():
     isMobileNum1 = re.match(pattern1, updateMobileNum)
     isMobileNum2 = re.match(pattern2, updateMobileNum)
     if not (isMobileNum1 or isMobileNum2):
-        print("Invalid, format (XXX) XXX-XXX extXXX..-extension is optional")
-        print("Invalid input")
+        print("Invalid input, format (XXX) XXX-XXX extXXX..-extension is optional")
+        print("Returning back the update menu...")
         updateMenu()
 
     myCursor.execute("UPDATE Student SET MobilePhoneNumber = ? WHERE StudentId = ?", (updateMobileNum, sId))
@@ -330,10 +341,10 @@ def updateStudentMobileNum():
 #   i.Perform a “soft”delete on students that is, set isDeleted to true(1)
 def deleteStudent():
     deleted = 1
-    choice = input("    Are you sure you would like to delete this student from the database? "
+    choice = input("Are you sure you would like to delete this student from the database? "
                    "Enter yes or no: ")
     if choice == "Yes" or choice == "yes":
-        sId = input("    Enter Student ID: ")
+        sId = input("Enter Student ID: ")
         if not sId.isdigit():
             print("Invalid input")
             print("Returning back the update menu...")
@@ -342,11 +353,12 @@ def deleteStudent():
         myCursor.execute("UPDATE Student SET isDeleted = ? WHERE StudentId = ?", (deleted, sId))
         conn.commit()
     elif choice == "No" or choice == "no":
-        print("    Returning back to update menu...")
+        print("Returning back to update menu...")
         updateMenu()
     else:
-        print("    Invalid input\n")
-        deleteStudent()
+        print("Invalid input")
+        print("Returning back to update menu...")
+        updateMenu()
 
 
 # Search/Display students by Major, GPA, City, State and Advisor.
@@ -568,6 +580,7 @@ def searchState():
     else:
         print("Invalid input")
         print("Returning back to search/display menu...")
+        searchMenu()
 
 
 def searchFAdvisor():
@@ -655,10 +668,10 @@ def searchFAdvisor():
     else:
         print("Invalid input")
         print("Returning back to search/display menu...")
+        searchMenu()
 
 
-
-
+# helper function
 def displayInfo():
     conn.commit()
     record = myCursor.fetchall()
