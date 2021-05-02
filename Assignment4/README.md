@@ -17,6 +17,10 @@ If the user does not follow that rule, I created a check statement for it.
    print("Error: Enter invalid filename")
    print("Exiting...")
    quit()*
+   
+   
+## UPDATE! PLEASE  READ THIS BEFORE RUNNING MY CODE
+## In my generating data function, when it asks you to enter the the filename, please type mydata.csv. I just realized that for my import data function I hard coded 'mydata.csv' and that is the file where it will to import the generated data. I am so sorry about this! 
  
  Resources: <br>
  Faker Library: https://www.geeksforgeeks.org/python-faker-library/ <br>
